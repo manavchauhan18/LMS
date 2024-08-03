@@ -22,7 +22,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.use('/', booksRoutes);
 
-const port = 3000;
+const port = 3001;
 app.listen(port, () => {
     console.log(`App is running on port ${port}`);
     console.log("Jump to site: " + `http://localhost:${port}`);
