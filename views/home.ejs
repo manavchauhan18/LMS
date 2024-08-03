@@ -30,47 +30,54 @@
 			<th>Return</th>
 			<th>Delete</th>
 		</tr>
-		<% data.forEach(element=> { %>
-			<tr>
-				<td>
-					<%= element.name %>
-				</td>
-				<td>
-					<%= element.author %>
-				</td>
-				<td>
-					<%= element.pages %>
-				</td>
-				<td>
-					<%= element.price %>
-				</td>
-				<td>
-					<%= element.state %>
-				</td>
-				<td>
-					<input type="text" style="display: none;" name="bookName">
-					<button type="submit" id="edit-book" <%= (element.state === 'Issued') ? 'disabled' : '' %> data-name="<%= element.name %>" data-author="<%= element.author %>" data-pages="<%= element.pages %>" data-price="<%= element.price %>">Edit</button>
-				</td>
-				<td>
-					<form action="/issue" method="post">
-						<input type="text" style="display: none;" name="bookName" value="<%= element.name %>">
-						<button type="submit" <%= (element.state === 'Issued') ? 'disabled' : '' %>>Issue</button>
-					</form>
-				</td>
-				<td>
-					<form action="/return" method="post">
-						<input type="text" style="display: none;" name="bookName" value="<%= element.name %>">
-						<button type="submit" <%= (element.state === 'Available') ? 'disabled' : '' %>>Return</button>
-					</form>
-				</td>
-				<td>
-					<form action="/delete" method="post">
-						<input type="text" style="display: none;" name="bookName" value="<%= element.name %>">
-						<button type="submit">Delete</button>
-					</form>
-				</td>
-			</tr>
-			<% }) %>
+		<% console.log(data) %>
+		<% if(data.status === true) { %>
+			<% data.data.response.forEach(element=> { %>
+				<tr>
+					<td>
+						<%= element.name %>
+					</td>
+					<td>
+						<%= element.author %>
+					</td>
+					<td>
+						<%= element.pages %>
+					</td>
+					<td>
+						<%= element.price %>
+					</td>
+					<td>
+						<%= element.state %>
+					</td>
+					<td>
+						<input type="text" style="display: none;" name="bookName">
+						<button type="submit" id="edit-book" <%= (element.state === 'Issued') ? 'disabled' : '' %> data-name="<%= element.name %>" data-author="<%= element.author %>" data-pages="<%= element.pages %>" data-price="<%= element.price %>">Edit</button>
+					</td>
+					<td>
+						<form action="/issue" method="post">
+							<input type="text" style="display: none;" name="bookName" value="<%= element.name %>">
+							<button type="submit" <%= (element.state === 'Issued') ? 'disabled' : '' %>>Issue</button>
+						</form>
+					</td>
+					<td>
+						<form action="/return" method="post">
+							<input type="text" style="display: none;" name="bookName" value="<%= element.name %>">
+							<button type="submit" <%= (element.state === 'Available') ? 'disabled' : '' %>>Return</button>
+						</form>
+					</td>
+					<td>
+						<form action="/delete" method="post">
+							<input type="text" style="display: none;" name="bookName" value="<%= element.name %>">
+							<button type="submit">Delete</button>
+						</form>
+					</td>
+				</tr>
+				<% }) %>
+			<% } else { %>
+				<tr>
+					<td colspan="9">No data found</td>
+				</tr>
+			<% } %>
 	</table>
 
 	<div id="editBookModel" class="modal" style="display: none;">
@@ -91,6 +98,20 @@
 			</form>
 		</div>
 	</div>
+
+	<% if(data.status === true) { %>
+		<% if(data.data.pag && data.data.pag.status === true) { %>
+			<div class="container">
+				<ul class="pagination">
+					<li><a href="#">&laquo; Previous</a></li>
+					<% for (let pagination = 1; pagination <= data.data.pag.pages; pagination++) { %>
+						<li><a href="#"><%= pagination %></a></li>
+					<% } %>
+					<li><a href="#">Next &raquo;</a></li>
+				</ul>
+			</div>
+		<% } %>
+	<% } %>
 	
 	<script type="text/javascript" src="../public/custom.js"></script>
 </body>

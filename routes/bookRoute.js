@@ -2,17 +2,37 @@ const express = require('express');
 const router = express.Router();
 const Books = require('../models/book');
 
-const booksCount = Books.countDocuments();
 const dataLimit = 10;
 
 router.get('/', async (req, res) => {
     try {
+        const booksCount = await Books.countDocuments();
         if(booksCount < dataLimit) {
             const books = await Books.find({ softDelete: false }).sort({ bookId: -1 });
-            res.render('home', { data: books });
+            let data = {
+                status: true,
+                data: {
+                    response: books,
+                    pag: {
+                        status: false
+                    }
+                }
+            };
+            res.render('home', { data: data });
         } else {
             const books = await Books.find({ softDelete: false }).sort({ bookId: -1 }).limit(dataLimit);
-            res.render('home', { data: books });
+            let pagLimit = Math.ceil(booksCount/dataLimit);
+            let data = {
+                status: true,
+                data: {
+                    response: books,
+                    pag: {
+                        status: true,
+                        pages: pagLimit
+                    }
+                }
+            };
+            res.render('home', { data: data });
         }
         
     } catch (err) {
@@ -23,6 +43,7 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
+        const booksCount = await Books.countDocuments();
         const { bookName, bookAuthor, bookPages, bookPrice } = req.body;
         if (!bookName || typeof bookName !== 'string') {
             return res.status(400).send('Invalid book name');
@@ -47,10 +68,30 @@ router.post('/', async (req, res) => {
         });
         if(booksCount < dataLimit) {
             const books = await Books.find({ softDelete: false }).sort({ bookId: -1 });
-            res.render('home', { data: books });
+            let data = {
+                status: true,
+                data: {
+                    response: books,
+                    pag: {
+                        status: false
+                    }
+                }
+            };
+            res.render('home', { data: data });
         } else {
             const books = await Books.find({ softDelete: false }).sort({ bookId: -1 }).limit(dataLimit);
-            res.render('home', { data: books });
+            let pagLimit = Math.ceil(booksCount/dataLimit);
+            let data = {
+                status: true,
+                data: {
+                    response: books,
+                    pag: {
+                        status: true,
+                        pages: pagLimit
+                    }
+                }
+            };
+            res.render('home', { data: data });
         }
     } catch (error) {
         console.error(error);
@@ -60,14 +101,35 @@ router.post('/', async (req, res) => {
 
 router.post('/issue', async (req, res) => {
     try {
+        const booksCount = await Books.countDocuments();
         const { bookName } = req.body;
         await Books.findOneAndUpdate({ name: bookName }, { $set: { state: "Issued" } });
         if(booksCount < dataLimit) {
             const books = await Books.find({ softDelete: false }).sort({ bookId: -1 });
-            res.render('home', { data: books });
+            let data = {
+                status: true,
+                data: {
+                    response: books,
+                    pag: {
+                        status: false
+                    }
+                }
+            };
+            res.render('home', { data: data });
         } else {
             const books = await Books.find({ softDelete: false }).sort({ bookId: -1 }).limit(dataLimit);
-            res.render('home', { data: books });
+            let pagLimit = Math.ceil(booksCount/dataLimit);
+            let data = {
+                status: true,
+                data: {
+                    response: books,
+                    pag: {
+                        status: true,
+                        pages: pagLimit
+                    }
+                }
+            };
+            res.render('home', { data: data });
         }
     } catch (error) {
         console.error(error);
@@ -77,14 +139,35 @@ router.post('/issue', async (req, res) => {
 
 router.post('/return', async (req, res) => {
     try {
+        const booksCount = await Books.countDocuments();
         const { bookName } = req.body;
         await Books.findOneAndUpdate({ name: bookName }, { $set: { state: "Available" } });
         if(booksCount < dataLimit) {
             const books = await Books.find({ softDelete: false }).sort({ bookId: -1 });
-            res.render('home', { data: books });
+            let data = {
+                status: true,
+                data: {
+                    response: books,
+                    pag: {
+                        status: false
+                    }
+                }
+            };
+            res.render('home', { data: data });
         } else {
             const books = await Books.find({ softDelete: false }).sort({ bookId: -1 }).limit(dataLimit);
-            res.render('home', { data: books });
+            let pagLimit = Math.ceil(booksCount/dataLimit);
+            let data = {
+                status: true,
+                data: {
+                    response: books,
+                    pag: {
+                        status: true,
+                        pages: pagLimit
+                    }
+                }
+            };
+            res.render('home', { data: data });
         }
     } catch (error) {
         console.error(error);
@@ -94,14 +177,35 @@ router.post('/return', async (req, res) => {
 
 router.post('/delete', async (req, res) => {
     try {
+        const booksCount = await Books.countDocuments();
         const { bookName } = req.body;
         await Books.findOneAndUpdate({ name: bookName }, { $set: { softDelete: true } });
         if(booksCount < dataLimit) {
             const books = await Books.find({ softDelete: false }).sort({ bookId: -1 });
-            res.render('home', { data: books });
+            let data = {
+                status: true,
+                data: {
+                    response: books,
+                    pag: {
+                        status: false
+                    }
+                }
+            };
+            res.render('home', { data: data });
         } else {
             const books = await Books.find({ softDelete: false }).sort({ bookId: -1 }).limit(dataLimit);
-            res.render('home', { data: books });
+            let pagLimit = Math.ceil(booksCount/dataLimit);
+            let data = {
+                status: true,
+                data: {
+                    response: books,
+                    pag: {
+                        status: true,
+                        pages: pagLimit
+                    }
+                }
+            };
+            res.render('home', { data: data });
         }
     } catch (error) {
         console.error(error);
@@ -111,14 +215,35 @@ router.post('/delete', async (req, res) => {
 
 router.post('/edit', async (req,res) => {
     try {
+        const booksCount = await Books.countDocuments();
         const { selectedBook, newBookName, newBookAuthor, newBookPages, newBookPrice } = req.body;
         await Books.findOneAndUpdate({ name: selectedBook }, { name: newBookName, author: newBookAuthor, pages: newBookPages, price: newBookPrice });
         if(booksCount < dataLimit) {
             const books = await Books.find({ softDelete: false }).sort({ bookId: -1 });
-            res.render('home', { data: books });
+            let data = {
+                status: true,
+                data: {
+                    response: books,
+                    pag: {
+                        status: false
+                    }
+                }
+            };
+            res.render('home', { data: data });
         } else {
             const books = await Books.find({ softDelete: false }).sort({ bookId: -1 }).limit(dataLimit);
-            res.render('home', { data: books });
+            let pagLimit = Math.ceil(booksCount/dataLimit);
+            let data = {
+                status: true,
+                data: {
+                    response: books,
+                    pag: {
+                        status: true,
+                        pages: pagLimit
+                    }
+                }
+            };
+            res.render('home', { data: data });
         }
     } catch (error) {
         console.error(error);
