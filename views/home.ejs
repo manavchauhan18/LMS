@@ -6,6 +6,17 @@
 	<link rel="stylesheet" href="../public/custom.css">
 </head>
 <body>
+
+	<h1>Add Book</h1>
+
+	<form action="/" method="post">
+		<input type="text" placeholder="Book Name" name="bookName">
+		<input type="text" placeholder="Book Author" name="bookAuthor">
+		<input type="text" placeholder="Book Pages" name="bookPages">
+		<input type="text" placeholder="Book Price" name="bookPrice">
+		<button type="submit">Add</button>
+	</form>
+
 	<h1>All Books</h1>
 	<table>
 		<tr>
@@ -38,18 +49,18 @@
 				</td>
 				<td>
 					<input type="text" style="display: none;" name="bookName">
-					<button type="submit" id="edit-book" data-name="<%= element.name %>" data-author="<%= element.author %>" data-pages="<%= element.pages %>" data-price="<%= element.price %>">Edit</button>
+					<button type="submit" id="edit-book" <%= (element.state === 'Issued') ? 'disabled' : '' %> data-name="<%= element.name %>" data-author="<%= element.author %>" data-pages="<%= element.pages %>" data-price="<%= element.price %>">Edit</button>
 				</td>
 				<td>
 					<form action="/issue" method="post">
 						<input type="text" style="display: none;" name="bookName" value="<%= element.name %>">
-						<button type="submit">Issue</button>
+						<button type="submit" <%= (element.state === 'Issued') ? 'disabled' : '' %>>Issue</button>
 					</form>
 				</td>
 				<td>
 					<form action="/return" method="post">
 						<input type="text" style="display: none;" name="bookName" value="<%= element.name %>">
-						<button type="submit">Return</button>
+						<button type="submit" <%= (element.state === 'Available') ? 'disabled' : '' %>>Return</button>
 					</form>
 				</td>
 				<td>
@@ -80,15 +91,7 @@
 			</form>
 		</div>
 	</div>
-	<h1>Add Book</h1>
-
-	<form action="/" method="post">
-		<input type="text" placeholder="Book Name" name="bookName">
-		<input type="text" placeholder="Book Author" name="bookAuthor">
-		<input type="text" placeholder="Book Pages" name="bookPages">
-		<input type="text" placeholder="Book Price" name="bookPrice">
-		<button type="submit">Add</button>
-	</form>
+	
 	<script type="text/javascript" src="../public/custom.js"></script>
 </body>
 
