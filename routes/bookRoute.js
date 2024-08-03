@@ -264,7 +264,8 @@ router.get('/page/:pageNumber', async (req, res) => {
                 response: books,
                 pag: {
                     status: true,
-                    pages: pagLimit
+                    pages: pagLimit,
+                    pageno: pageNumber
                 }
             }
         };

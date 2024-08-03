@@ -102,11 +102,11 @@
 		<% if(data.data.pag && data.data.pag.status === true) { %>
 			<div class="container">
 				<ul class="pagination">
-					<li><a href="#" style="pointer-events: none">&laquo; Previous</a></li>
+					<li><a <% if(data.data.pag.pageno && data.data.pag.pageno != 1) { %> href="/page/<%= data.data.pag.pageno - 1 %>" <% } else { %> style="pointer-events: none" <% } %>>&laquo; Previous</a></li>
 					<% for (let pagination = 1; pagination <= data.data.pag.pages; pagination++) { %>
 						<li><a href="/page/<%= pagination %>"><%= pagination %></a></li>
 					<% } %>
-					<li><a href="/page/2">Next &raquo;</a></li>
+					<li><a <% if(data.data.pag.pageno && data.data.pag.pageno != data.data.pag.pages) { %> href="/page/<%= Number(data.data.pag.pageno) + 1 %>" <% } else if(!(data.data.pag.pageno)) { %> href="/page/2" <% } else { %> style="pointer-events: none" <% } %>>Next &raquo;</a></li>
 				</ul>
 			</div>
 		<% } %>
