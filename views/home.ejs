@@ -30,8 +30,8 @@
 			<th>Return</th>
 			<th>Delete</th>
 		</tr>
-		<% if(data.status === true) { %>
-			<% data.data.response.forEach(element=> { %>
+		<% if(status === true) { %>
+			<% data.response.forEach(element=> { %>
 				<tr>
 					<td>
 						<%= element.name %>
@@ -98,15 +98,15 @@
 		</div>
 	</div>
 
-	<% if(data.status === true) { %>
-		<% if(data.data.pag && data.data.pag.status === true) { %>
+	<% if(status === true) { %>
+		<% if(data.pag && data.pag.status === true) { %>
 			<div class="container">
 				<ul class="pagination">
-					<li><a <% if(data.data.pag.pageno && data.data.pag.pageno != 1) { %> href="/page/<%= data.data.pag.pageno - 1 %>" <% } else { %> style="pointer-events: none" <% } %>>&laquo; Previous</a></li>
-					<% for (let pagination = 1; pagination <= data.data.pag.pages; pagination++) { %>
+					<li><a <% if(data.pag.pageno && data.pag.pageno != 1) { %> href="/page/<%= data.pag.pageno - 1 %>" <% } else { %> style="pointer-events: none" <% } %>>&laquo; Previous</a></li>
+					<% for (let pagination = 1; pagination <= data.pag.pages; pagination++) { %>
 						<li><a href="/page/<%= pagination %>"><%= pagination %></a></li>
 					<% } %>
-					<li><a <% if(data.data.pag.pageno && data.data.pag.pageno != data.data.pag.pages) { %> href="/page/<%= Number(data.data.pag.pageno) + 1 %>" <% } else if(!(data.data.pag.pageno)) { %> href="/page/2" <% } else { %> style="pointer-events: none" <% } %>>Next &raquo;</a></li>
+					<li><a <% if(data.pag.pageno && data.pag.pageno != data.pag.pages) { %> href="/page/<%= Number(data.pag.pageno) + 1 %>" <% } else if(!(data.pag.pageno)) { %> href="/page/2" <% } else { %> style="pointer-events: none" <% } %>>Next &raquo;</a></li>
 				</ul>
 			</div>
 		<% } %>
